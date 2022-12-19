@@ -129,31 +129,33 @@
 </h2>
 <p>The ability to easily collect and analyze survey data is incredibly important. Many platforms provide user-friendly methods to do this. <a href="https://www.google.com/forms/about/" class="external-link">Google Forms</a>, <a href="https://www.surveymonkey.com/" class="external-link">SurveyMonkey</a>, and <a href="https://www.qualtrics.com/core-xm/survey-software/" class="external-link">Qualtrics</a> are all popular options. However, these services don’t always integrate easily with existing data analysis and/or research pipelines. Because of R’s prevalence in academia and research, {shinysurveys} was developed to streamline the data collection and analysis process.</p>
 <p>In this vignette, I provide an overview of the main features of shinysurveys.<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> Aligned with the basic structure of {shiny} applications, consisting of the user-interface and server components, this package has a function for each: <code><a href="../reference/surveyOutput.html">surveyOutput()</a></code> and <code><a href="../reference/renderSurvey.html">renderSurvey()</a></code>, respectively. The former accepts a data frame of questions that follow a specific format. To illustrate this, I will show a questionnaire from a recent study conducted by the <a href="https://dmds.lucymcgowan.com/" class="external-link">D’Agostino McGowan Data Science Lab</a> that is built into the <code>shinysurveys</code> package.<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a> The first ten (of 54) rows of this data frame look like:</p>
-<pre><code><span class="co">#&gt; <span style="color: #949494;"># A tibble: 10 × 7</span></span>
-<span class="co">#&gt;    question      option input_type input_id dependence dependence_value required</span>
-<span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> What's your … 25     numeric    age      <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>               TRUE    </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> Which best d… Female mc         gender   <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>               TRUE    </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> Which best d… Male   mc         gender   <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>               TRUE    </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> Which best d… Prefe… mc         gender   <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>               TRUE    </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> Which best d… Prefe… mc         gender   <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>               TRUE    </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> Which best d… <span style="color: #BB0000;">NA</span>     text       self_de… gender     Prefer to self … FALSE   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> What is the … Did n… select     educati… <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>               FALSE   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> What is the … Some … select     educati… <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>               FALSE   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> What is the … High … select     educati… <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>               FALSE   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">10</span> What is the … Some … select     educati… <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>               FALSE</span></code></pre>
+<pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 10 × 7</span></span></span>
+<span><span class="co">#&gt;    question                       option input…¹ input…² depen…³ depen…⁴ requi…⁵</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> What's your age?               25     numeric age     <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>      TRUE   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> Which best describes your gen… Female mc      gender  <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>      TRUE   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> Which best describes your gen… Male   mc      gender  <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>      TRUE   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> Which best describes your gen… Prefe… mc      gender  <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>      TRUE   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> Which best describes your gen… Prefe… mc      gender  <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>      TRUE   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> Which best describes your gen… <span style="color: #BB0000;">NA</span>     text    self_d… gender  Prefer… FALSE  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> What is the highest level of … Did n… select  educat… <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>      FALSE  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> What is the highest level of … Some … select  educat… <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>      FALSE  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> What is the highest level of … High … select  educat… <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>      FALSE  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> What is the highest level of … Some … select  educat… <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>      FALSE  </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with abbreviated variable names ¹​input_type, ²​input_id, ³​dependence,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   ⁴​dependence_value, ⁵​required</span></span></span></code></pre>
 <p>This data can be described as a tidy data frame, where each row is a unique observation and each column is a variable. While the full table consists of 54 rows, there are only 11 unique questions:</p>
-<pre><code><span class="co">#&gt;  [1] "What's your age?"                                                               </span>
-<span class="co">#&gt;  [2] "Which best describes your gender?"                                              </span>
-<span class="co">#&gt;  [3] "What is the highest level of education you have attained?"                      </span>
-<span class="co">#&gt;  [4] "What was your first language?"                                                  </span>
-<span class="co">#&gt;  [5] "In what language do you read most often?"                                       </span>
-<span class="co">#&gt;  [6] "Have you ever learned to program in R?"                                         </span>
-<span class="co">#&gt;  [7] "If yes, how many years have you been using R?"                                  </span>
-<span class="co">#&gt;  [8] "Have you ever learned a programming language (other than R)?"                   </span>
-<span class="co">#&gt;  [9] "If yes, which language(s) and how many years have you been using each language?"</span>
-<span class="co">#&gt; [10] "Have you ever completed a data analysis?"                                       </span>
-<span class="co">#&gt; [11] "If yes, approximately how many data analyses have you completed?"</span></code></pre>
+<pre><code><span><span class="co">#&gt;  [1] "What's your age?"                                                               </span></span>
+<span><span class="co">#&gt;  [2] "Which best describes your gender?"                                              </span></span>
+<span><span class="co">#&gt;  [3] "What is the highest level of education you have attained?"                      </span></span>
+<span><span class="co">#&gt;  [4] "What was your first language?"                                                  </span></span>
+<span><span class="co">#&gt;  [5] "In what language do you read most often?"                                       </span></span>
+<span><span class="co">#&gt;  [6] "Have you ever learned to program in R?"                                         </span></span>
+<span><span class="co">#&gt;  [7] "If yes, how many years have you been using R?"                                  </span></span>
+<span><span class="co">#&gt;  [8] "Have you ever learned a programming language (other than R)?"                   </span></span>
+<span><span class="co">#&gt;  [9] "If yes, which language(s) and how many years have you been using each language?"</span></span>
+<span><span class="co">#&gt; [10] "Have you ever completed a data analysis?"                                       </span></span>
+<span><span class="co">#&gt; [11] "If yes, approximately how many data analyses have you completed?"</span></span></code></pre>
 <p>The reason for the discrepancy between the number of rows and unique questions derives from the fact that certain questions can have more than one possible response. For example, the multiple choice question asking about gender has four options: “Female”, “Male”, “Prefer not to say”, or “Prefer to self describe.” It thus has four rows, one per each option.</p>
 <p>To create a question in the required format, seven parameters must be supplied. They are described in the package documentation and can be accessed by typing <code><a href="../reference/teaching_r_questions.html">?shinysurveys::teaching_r_questions</a></code> in the R console:</p>
 <ul>
@@ -181,10 +183,11 @@
 <h4 id="numeric-input">Numeric Input<a class="anchor" aria-label="anchor" href="#numeric-input"></a>
 </h4>
 <p>A good example of a numeric input is the first question: “What’s your age?”:</p>
-<pre><code><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 7</span></span>
-<span class="co">#&gt;   question       option input_type input_id dependence dependence_value required</span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> What's your a… 25     numeric    age      <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>               TRUE</span></code></pre>
+<pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 7</span></span></span>
+<span><span class="co">#&gt;   question         option input_type input_id dependence dependence_va…¹ requi…²</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> What's your age? 25     numeric    age      <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>              TRUE   </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with abbreviated variable names ¹​dependence_value, ²​required</span></span></span></code></pre>
 <p>As seen above, this row corresponds to the question “What’s your age?”. I know to expect a numeric response by looking at the <code>input_type</code> column, and the default value is equal to 25 according to the <code>option</code> column.<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a></p>
 <p>I can also tell that there are no dependency questions. This means that no matter what value is entered, no follow-up question will appear. Lastly, I know it is a required question.<a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a></p>
 <p><img src="graphics/survey-of-shinysurveys/numeric_example.png" style="display: block; margin: 1em auto" width="300"></p>
@@ -193,14 +196,16 @@
 <h4 id="multiple_choice">Multiple Choice (mc) Input<a class="anchor" aria-label="anchor" href="#multiple_choice"></a>
 </h4>
 <p>An example of this is the question “Which best describes your gender?”:</p>
-<pre><code><span class="co">#&gt; <span style="color: #949494;"># A tibble: 5 × 7</span></span>
-<span class="co">#&gt;   question       option input_type input_id dependence dependence_value required</span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Which best de… Female mc         gender   <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>               TRUE    </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Which best de… Male   mc         gender   <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>               TRUE    </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Which best de… Prefe… mc         gender   <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>               TRUE    </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Which best de… Prefe… mc         gender   <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>               TRUE    </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">5</span> Which best de… <span style="color: #BB0000;">NA</span>     text       self_de… gender     Prefer to self … FALSE</span></code></pre>
+<pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 5 × 7</span></span></span>
+<span><span class="co">#&gt;   question                        option input…¹ input…² depen…³ depen…⁴ requi…⁵</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Which best describes your gend… Female mc      gender  <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>      TRUE   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Which best describes your gend… Male   mc      gender  <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>      TRUE   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Which best describes your gend… Prefe… mc      gender  <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>      TRUE   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Which best describes your gend… Prefe… mc      gender  <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>      TRUE   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> Which best describes your gend… <span style="color: #BB0000;">NA</span>     text    self_d… gender  Prefer… FALSE  </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with abbreviated variable names ¹​input_type, ²​input_id, ³​dependence,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   ⁴​dependence_value, ⁵​required</span></span></span></code></pre>
 <p>Unlike numeric inputs, the <code>option</code> column represents each of the possible responses for this question. You may notice that the fifth row of this question has <em>NA</em> in the <code>option</code> column and “text” in the <code>input_type</code> column. I will discuss this in more detail <a href="#dependency-questions">below</a>, but for now, note that this question has a dependent. That is, if a specific option is chosen for this question, a new one will appear below. In this case, a question that accepts text as its input.</p>
 <p><img src="graphics/survey-of-shinysurveys/mc_example.png" style="display: block; margin: 1em auto" width="300"></p>
 </div>
@@ -208,10 +213,12 @@
 <h4 id="text_input">Text Input<a class="anchor" aria-label="anchor" href="#text_input"></a>
 </h4>
 <p>Questions that need text-based input should specify “text” in the <code>input_type</code> column. As noted in the previous example, the following is a dependent of the question “Which best describes your gender?”:</p>
-<pre><code><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 7</span></span>
-<span class="co">#&gt;   question       option input_type input_id dependence dependence_value required</span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Which best de… <span style="color: #BB0000;">NA</span>     text       self_de… gender     Prefer to self … FALSE</span></code></pre>
+<pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 7</span></span></span>
+<span><span class="co">#&gt;   question                        option input…¹ input…² depen…³ depen…⁴ requi…⁵</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Which best describes your gend… <span style="color: #BB0000;">NA</span>     text    self_d… gender  Prefer… FALSE  </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with abbreviated variable names ¹​input_type, ²​input_id, ³​dependence,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   ⁴​dependence_value, ⁵​required</span></span></span></code></pre>
 <p>As previously mentioned, the <code>option</code> column for text-based inputs corresponds to a placeholder value. It can be left blank (i.e. NA) or contain a character string. If they are left empty, the text field will display “Placeholder” as seen below. Otherwise, the character string will be displayed.</p>
 <p><img src="graphics/survey-of-shinysurveys/text_input_placeholder.png" class="center" style="display: block; margin: 1em auto" width="300"></p>
 <p><img src="graphics/survey-of-shinysurveys/text_input_character_string.png" class="center" data-latex="" style="display: block; margin: 1em auto" width="290" height="71"></p>
@@ -220,35 +227,39 @@
 <h4 id="select-input">Select Input<a class="anchor" aria-label="anchor" href="#select-input"></a>
 </h4>
 <p>Select inputs are great when there are many potential, discretely defined, response choices.<a href="#fn5" class="footnote-ref" id="fnref5"><sup>5</sup></a> An example is the question “What was your first language?” which contains 15 options:</p>
-<pre><code><span class="co">#&gt; <span style="color: #949494;"># A tibble: 15 × 7</span></span>
-<span class="co">#&gt;    question      option input_type input_id dependence dependence_value required</span>
-<span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> What was you… Arabic select     first_l… <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>               FALSE   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> What was you… Armen… select     first_l… <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>               FALSE   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> What was you… Chine… select     first_l… <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>               FALSE   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> What was you… Engli… select     first_l… <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>               FALSE   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> What was you… French select     first_l… <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>               FALSE   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> What was you… Creole select     first_l… <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>               FALSE   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> What was you… German select     first_l… <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>               FALSE   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> What was you… Greek  select     first_l… <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>               FALSE   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> What was you… Gujar… select     first_l… <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>               FALSE   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">10</span> What was you… Hebrew select     first_l… <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>               FALSE   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">11</span> What was you… Hindi  select     first_l… <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>               FALSE   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">12</span> What was you… Itali… select     first_l… <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>               FALSE   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">13</span> What was you… Japan… select     first_l… <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>               FALSE   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">14</span> What was you… Other  select     first_l… <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>               FALSE   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">15</span> What was you… <span style="color: #BB0000;">NA</span>     text       first_l… first_lan… Other            FALSE</span></code></pre>
+<pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 15 × 7</span></span></span>
+<span><span class="co">#&gt;    question                      option  input…¹ input…² depen…³ depen…⁴ requi…⁵</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> What was your first language? Arabic  select  first_… <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>      FALSE  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> What was your first language? Armeni… select  first_… <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>      FALSE  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> What was your first language? Chinese select  first_… <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>      FALSE  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> What was your first language? English select  first_… <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>      FALSE  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> What was your first language? French  select  first_… <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>      FALSE  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> What was your first language? Creole  select  first_… <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>      FALSE  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> What was your first language? German  select  first_… <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>      FALSE  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> What was your first language? Greek   select  first_… <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>      FALSE  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> What was your first language? Gujara… select  first_… <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>      FALSE  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> What was your first language? Hebrew  select  first_… <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>      FALSE  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span> What was your first language? Hindi   select  first_… <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>      FALSE  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">12</span> What was your first language? Italian select  first_… <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>      FALSE  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">13</span> What was your first language? Japane… select  first_… <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>      FALSE  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">14</span> What was your first language? Other   select  first_… <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>      FALSE  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">15</span> What was your first language? <span style="color: #BB0000;">NA</span>      text    first_… first_… Other   FALSE  </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with abbreviated variable names ¹​input_type, ²​input_id, ³​dependence,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   ⁴​dependence_value, ⁵​required</span></span></span></code></pre>
 <p><img src="graphics/survey-of-shinysurveys/select_input_example.png" style="display: block; margin: 1em auto" width="300"></p>
 </div>
 <div class="section level4">
 <h4 id="yes-or-no-yn-input">Yes or No (y/n) Input<a class="anchor" aria-label="anchor" href="#yes-or-no-yn-input"></a>
 </h4>
 <p>Yes or no questions are self-explanatory. An example is the question “Have you ever learned to program in R?”:</p>
-<pre><code><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 7</span></span>
-<span class="co">#&gt;   question       option input_type input_id dependence dependence_value required</span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Have you ever… Yes    y/n        learned… <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>               TRUE    </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Have you ever… No     y/n        learned… <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>               TRUE</span></code></pre>
+<pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 7</span></span></span>
+<span><span class="co">#&gt;   question                        option input…¹ input…² depen…³ depen…⁴ requi…⁵</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Have you ever learned to progr… Yes    y/n     learne… <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>      TRUE   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Have you ever learned to progr… No     y/n     learne… <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>      TRUE   </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with abbreviated variable names ¹​input_type, ²​input_id, ³​dependence,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   ⁴​dependence_value, ⁵​required</span></span></span></code></pre>
 <p><img src="graphics/survey-of-shinysurveys/yes_no_example.png" style="display: block; margin: 1em auto" width="300"></p>
 <p>With an understanding of the available input types, I will now discuss how to implement a survey using this package.</p>
 </div>
@@ -258,20 +269,20 @@
 <p>Survey questions are often presented in a grid. Consider the question:</p>
 <p><em>Please indicate whether you agree, disagree, or are neutral about the following items. (1) I love sushi. (2) I love chocolate.</em></p>
 <p>Using the following data frame, you could ask that question. <a href="#fn6" class="footnote-ref" id="fnref6"><sup>6</sup></a></p>
-<pre><code><span class="co">#&gt;            question   option input_type input_id dependence dependence_value</span>
-<span class="co">#&gt; 1     I love sushi. Disagree     matrix    matId         NA               NA</span>
-<span class="co">#&gt; 2     I love sushi.  Neutral     matrix    matId         NA               NA</span>
-<span class="co">#&gt; 3     I love sushi.    Agree     matrix    matId         NA               NA</span>
-<span class="co">#&gt; 4 I love chocolate. Disagree     matrix    matId         NA               NA</span>
-<span class="co">#&gt; 5 I love chocolate.  Neutral     matrix    matId         NA               NA</span>
-<span class="co">#&gt; 6 I love chocolate.    Agree     matrix    matId         NA               NA</span>
-<span class="co">#&gt;   required</span>
-<span class="co">#&gt; 1    FALSE</span>
-<span class="co">#&gt; 2    FALSE</span>
-<span class="co">#&gt; 3    FALSE</span>
-<span class="co">#&gt; 4    FALSE</span>
-<span class="co">#&gt; 5    FALSE</span>
-<span class="co">#&gt; 6    FALSE</span></code></pre>
+<pre><code><span><span class="co">#&gt;            question   option input_type input_id dependence dependence_value</span></span>
+<span><span class="co">#&gt; 1     I love sushi. Disagree     matrix    matId         NA               NA</span></span>
+<span><span class="co">#&gt; 2     I love sushi.  Neutral     matrix    matId         NA               NA</span></span>
+<span><span class="co">#&gt; 3     I love sushi.    Agree     matrix    matId         NA               NA</span></span>
+<span><span class="co">#&gt; 4 I love chocolate. Disagree     matrix    matId         NA               NA</span></span>
+<span><span class="co">#&gt; 5 I love chocolate.  Neutral     matrix    matId         NA               NA</span></span>
+<span><span class="co">#&gt; 6 I love chocolate.    Agree     matrix    matId         NA               NA</span></span>
+<span><span class="co">#&gt;   required</span></span>
+<span><span class="co">#&gt; 1    FALSE</span></span>
+<span><span class="co">#&gt; 2    FALSE</span></span>
+<span><span class="co">#&gt; 3    FALSE</span></span>
+<span><span class="co">#&gt; 4    FALSE</span></span>
+<span><span class="co">#&gt; 5    FALSE</span></span>
+<span><span class="co">#&gt; 6    FALSE</span></span></code></pre>
 <p>In the browser, that would look like this:</p>
 <p><img src="graphics/survey-of-shinysurveys/matrix_example.png"></p>
 </div>
@@ -294,18 +305,18 @@
 </h4>
 <p>A minimal example of a survey can be created with this template:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://shinysurveys.jdtrat.com">shinysurveys</a></span><span class="op">)</span>
-<span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html" class="external-link">fluidPage</a></span><span class="op">(</span>
-  <span class="fu">shinysurveys</span><span class="fu">::</span><span class="fu"><a href="../reference/surveyOutput.html">surveyOutput</a></span><span class="op">(</span>df <span class="op">=</span> <span class="fu">shinysurveys</span><span class="fu">::</span><span class="va"><a href="../reference/teaching_r_questions.html">teaching_r_questions</a></span>,
-                             survey_title <span class="op">=</span> <span class="st">"A minimal title"</span>,
-                             survey_description <span class="op">=</span> <span class="st">"A minimal description"</span><span class="op">)</span>
-<span class="op">)</span>
-
-<span class="va">server</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">input</span>, <span class="va">output</span>, <span class="va">session</span><span class="op">)</span> <span class="op">{</span>
-  <span class="fu">shinysurveys</span><span class="fu">::</span><span class="fu"><a href="../reference/renderSurvey.html">renderSurvey</a></span><span class="op">(</span><span class="op">)</span>
-<span class="op">}</span>
-
-<span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/shinyApp.html" class="external-link">shinyApp</a></span><span class="op">(</span>ui <span class="op">=</span> <span class="va">ui</span>, server <span class="op">=</span> <span class="va">server</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://shinysurveys.jdtrat.com">shinysurveys</a></span><span class="op">)</span></span>
+<span><span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/fluidPage.html" class="external-link">fluidPage</a></span><span class="op">(</span></span>
+<span>  <span class="fu">shinysurveys</span><span class="fu">::</span><span class="fu"><a href="../reference/surveyOutput.html">surveyOutput</a></span><span class="op">(</span>df <span class="op">=</span> <span class="fu">shinysurveys</span><span class="fu">::</span><span class="va"><a href="../reference/teaching_r_questions.html">teaching_r_questions</a></span>,</span>
+<span>                             survey_title <span class="op">=</span> <span class="st">"A minimal title"</span>,</span>
+<span>                             survey_description <span class="op">=</span> <span class="st">"A minimal description"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">server</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">input</span>, <span class="va">output</span>, <span class="va">session</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu">shinysurveys</span><span class="fu">::</span><span class="fu"><a href="../reference/renderSurvey.html">renderSurvey</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/shinyApp.html" class="external-link">shinyApp</a></span><span class="op">(</span>ui <span class="op">=</span> <span class="va">ui</span>, server <span class="op">=</span> <span class="va">server</span><span class="op">)</span></span></code></pre></div>
 <p>This creates a functioning survey that looks like this:</p>
 <p><img src="graphics/survey-of-shinysurveys/minimal-survey.png"></p>
 <p>However, when a participant submits their results, nothing happens. By design, {shinysurveys} is minimalist. An extension of this is not imposing any requirements for submission actions, but rather allowing the survey designer to customize them.</p>
@@ -319,14 +330,16 @@
 <h4 id="dependency-questions">Dependency Questions<a class="anchor" aria-label="anchor" href="#dependency-questions"></a>
 </h4>
 <p>I use the term question dependencies in reference to the situations where a question should only be shown (i.e. asked) if a specific response is given to a preceding question. The questions included with the {shinysurveys} package contain many dependencies. One example I I mentioned when discussing <a href="#multiple_choice">multiple choice</a> and <a href="#text_input">text-based</a> questions is the dependent for “Which best describes your gender?”</p>
-<pre><code><span class="co">#&gt; <span style="color: #949494;"># A tibble: 5 × 7</span></span>
-<span class="co">#&gt;   question       option input_type input_id dependence dependence_value required</span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Which best de… Female mc         gender   <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>               TRUE    </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Which best de… Male   mc         gender   <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>               TRUE    </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Which best de… Prefe… mc         gender   <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>               TRUE    </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Which best de… Prefe… mc         gender   <span style="color: #BB0000;">NA</span>         <span style="color: #BB0000;">NA</span>               TRUE    </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">5</span> Which best de… <span style="color: #BB0000;">NA</span>     text       self_de… gender     Prefer to self … FALSE</span></code></pre>
+<pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 5 × 7</span></span></span>
+<span><span class="co">#&gt;   question                        option input…¹ input…² depen…³ depen…⁴ requi…⁵</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Which best describes your gend… Female mc      gender  <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>      TRUE   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Which best describes your gend… Male   mc      gender  <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>      TRUE   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Which best describes your gend… Prefe… mc      gender  <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>      TRUE   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Which best describes your gend… Prefe… mc      gender  <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>      TRUE   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> Which best describes your gend… <span style="color: #BB0000;">NA</span>     text    self_d… gender  Prefer… FALSE  </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with abbreviated variable names ¹​input_type, ²​input_id, ³​dependence,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   ⁴​dependence_value, ⁵​required</span></span></span></code></pre>
 <p>Focusing on the columns <code>dependence</code> and <code>dependence_value</code>, the text-based question will only show if the multiple choice one, with the input id of “gender” takes on the value “Prefer to self describe.” That is, a question with non <em>NA</em> values in the <code>dependence</code> and <code>dependence_value</code> columns will only show if the question with the input id from <code>dependence</code> takes on the value in <code>dependence_value</code>. This can be seen below:</p>
 <p><img src="graphics/survey-of-shinysurveys/dependency_example_1.png" style="display: block; margin: 1em auto" width="300"></p>
 <p><img src="graphics/survey-of-shinysurveys/dependency_example_2.png" style="display: block; margin: 1em auto" width="300"></p>
@@ -385,7 +398,7 @@
 
       <footer><div class="author">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>

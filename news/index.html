@@ -91,8 +91,7 @@
 <h2 class="page-header" data-toc-text="development version" id="shinysurveys-development-version">shinysurveys (development version)<a class="anchor" aria-label="anchor" href="#shinysurveys-development-version"></a></h2>
 <div class="section level3">
 <h3 id="new-features-development-version">New features<a class="anchor" aria-label="anchor" href="#new-features-development-version"></a></h3>
-<ul><li>Added a function <code><a href="../reference/hideSurvey.html">hideSurvey()</a></code> for easily hiding the survey. This may be useful for, as an example, displaying results upon submission.</li>
-</ul></div>
+<ul><li>Added a function <code><a href="../reference/hideSurvey.html">hideSurvey()</a></code> for easily hiding the survey. This may be useful for, as an example, displaying results upon submission.</li></ul></div>
 <div class="section level3">
 <h3 id="minor-improvements-and-fixes-development-version">Minor improvements and fixes<a class="anchor" aria-label="anchor" href="#minor-improvements-and-fixes-development-version"></a></h3>
 <ul><li>Made input checks more robust for required questions – necessary for some custom input types (<a href="https://github.com/jdtrat/shinysurveys/issues/32" class="external-link">#32</a>).</li>
@@ -104,13 +103,12 @@
 <h2 class="page-header" data-toc-text="0.2.0" id="shinysurveys-020">shinysurveys 0.2.0<small>2021-07-11</small><a class="anchor" aria-label="anchor" href="#shinysurveys-020"></a></h2>
 <div class="section level3">
 <h3 id="breaking-changes-0-2-0">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-0-2-0"></a></h3>
-<ul><li>Deprecated all arguments to <code><a href="../reference/renderSurvey.html">renderSurvey()</a></code>. Both the <code>df</code> and <code>theme</code> arguments should <strong>only</strong> be passed to <code><a href="../reference/surveyOutput.html">surveyOutput()</a></code>. A warning message appears if either argument is passed to <code><a href="../reference/renderSurvey.html">renderSurvey()</a></code>, though the code still works. This will truly be a breaking change in the next release of shinysurveys.</li>
-</ul></div>
+<ul><li>Deprecated all arguments to <code><a href="../reference/renderSurvey.html">renderSurvey()</a></code>. Both the <code>df</code> and <code>theme</code> arguments should <strong>only</strong> be passed to <code><a href="../reference/surveyOutput.html">surveyOutput()</a></code>. A warning message appears if either argument is passed to <code><a href="../reference/renderSurvey.html">renderSurvey()</a></code>, though the code still works. This will truly be a breaking change in the next release of shinysurveys.</li></ul></div>
 <div class="section level3">
 <h3 id="new-features-0-2-0">New features<a class="anchor" aria-label="anchor" href="#new-features-0-2-0"></a></h3>
 <div class="section level4">
 <h4 id="input-types-0-2-0">Input Types<a class="anchor" aria-label="anchor" href="#input-types-0-2-0"></a></h4>
-<ul><li><p>Created <code>numerInput()</code>, which is identical to <code><a href="https://rdrr.io/pkg/shiny/man/numericInput.html" class="external-link">shiny::numericInput()</a></code> but is more flexible in the sense that it <strong>does not</strong> require an initial value and it allows placeholders. This is now the default for “numeric” input questions.</p></li>
+<ul><li><p>Created <code>numerInput()</code>, which is identical to <code><a href="https://shiny.rstudio.com/reference/shiny/latest/numericInput.html" class="external-link">shiny::numericInput()</a></code> but is more flexible in the sense that it <strong>does not</strong> require an initial value and it allows placeholders. This is now the default for “numeric” input questions.</p></li>
 <li><p>Created a shiny input, <code><a href="../reference/radioMatrixInput.html">radioMatrixInput()</a></code>, for matrix questions. It will return <code>NULL</code> until all possible response items have been answered, at which time a data frame with the ‘question_id’, ‘question_type’, and ‘response’ will be returned.</p></li>
 <li><p>Added support for “matrix” input types using <code><a href="../reference/radioMatrixInput.html">radioMatrixInput()</a></code> for creating matrix blocks. <a href="https://shinysurveys.jdtrat.com/articles/surveying-shinysurveys.html#matrix-input">See the documentation for an example.</a></p></li>
 <li><p>Added support for “instructions” ‘input’ types for use within other question types or standalone blocks.</p></li>
@@ -134,21 +132,17 @@
 <h2 class="page-header" data-toc-text="0.1.2" id="shinysurveys-012">shinysurveys 0.1.2<small>2021-02-19</small><a class="anchor" aria-label="anchor" href="#shinysurveys-012"></a></h2>
 <div class="section level3">
 <h3 id="breaking-changes-0-1-2">Breaking Changes<a class="anchor" aria-label="anchor" href="#breaking-changes-0-1-2"></a></h3>
-<ul><li>The <code><a href="../reference/renderSurvey.html">renderSurvey()</a></code> function no longer takes shiny <code>input</code>, <code>output</code>, and <code>session</code>. Rather, it accesses them internally with the function <code><a href="https://rdrr.io/pkg/shiny/man/domains.html" class="external-link">shiny::getDefaultReactiveDomain()</a></code>. Thanks to Dean Attali for the suggestion!</li>
-</ul></div>
+<ul><li>The <code><a href="../reference/renderSurvey.html">renderSurvey()</a></code> function no longer takes shiny <code>input</code>, <code>output</code>, and <code>session</code>. Rather, it accesses them internally with the function <code><a href="https://shiny.rstudio.com/reference/shiny/latest/domains.html" class="external-link">shiny::getDefaultReactiveDomain()</a></code>. Thanks to Dean Attali for the suggestion!</li></ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-0-1-2">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-1-2"></a></h3>
-<ul><li>Fixed survey appearance issues on smaller screens. Thanks to Paul Le Grand for the help!</li>
-</ul></div>
+<ul><li>Fixed survey appearance issues on smaller screens. Thanks to Paul Le Grand for the help!</li></ul></div>
 <div class="section level3">
 <h3 id="minor-changes-0-1-2">Minor Changes<a class="anchor" aria-label="anchor" href="#minor-changes-0-1-2"></a></h3>
-<ul><li>Updated tests for server-side and internal functions</li>
-</ul></div>
+<ul><li>Updated tests for server-side and internal functions</li></ul></div>
 </div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.1.1" id="shinysurveys-011">shinysurveys 0.1.1<a class="anchor" aria-label="anchor" href="#shinysurveys-011"></a></h2>
-<ul><li>Removed <code>dplyr</code>, <code>tidyr</code>, <code>rlang</code>, and <code>magrittr</code> dependencies.</li>
-</ul></div>
+<ul><li>Removed <code>dplyr</code>, <code>tidyr</code>, <code>rlang</code>, and <code>magrittr</code> dependencies.</li></ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.1.0" id="shinysurveys-010">shinysurveys 0.1.0<a class="anchor" aria-label="anchor" href="#shinysurveys-010"></a></h2>
 <div class="section level3">
@@ -159,17 +153,14 @@
 </ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-0-1-0">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-1-0"></a></h3>
-<ul><li>For surveys with no required questions, error message involving unexpected <code>NULL</code> in <code>vec_slice_impl()</code> appeared.</li>
-</ul></div>
+<ul><li>For surveys with no required questions, error message involving unexpected <code>NULL</code> in <code>vec_slice_impl()</code> appeared.</li></ul></div>
 <div class="section level3">
 <h3 id="minor-changes-0-1-0">Minor Changes<a class="anchor" aria-label="anchor" href="#minor-changes-0-1-0"></a></h3>
-<ul><li>Changed order of arguments in <code><a href="../reference/renderSurvey.html">renderSurvey()</a></code> to <code>c(df, input, output, session, theme)</code>.</li>
-</ul></div>
+<ul><li>Changed order of arguments in <code><a href="../reference/renderSurvey.html">renderSurvey()</a></code> to <code>c(df, input, output, session, theme)</code>.</li></ul></div>
 </div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.0.0.9000" id="shinysurveys-0009000">shinysurveys 0.0.0.9000<a class="anchor" aria-label="anchor" href="#shinysurveys-0009000"></a></h2>
-<ul><li>Publish initial development version.</li>
-</ul></div>
+<ul><li>Publish initial development version.</li></ul></div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -180,7 +171,7 @@
 
 
       <footer><div class="author">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

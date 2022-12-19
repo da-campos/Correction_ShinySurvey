@@ -97,12 +97,14 @@ should equal <code>surveyID()</code>. See examples for more details.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">surveyID</span><span class="op">(</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">surveyID</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="value">
     <h2>Value</h2>
-    <p>NA; used for side effects with <code><a href="extendInputType.html">extendInputType</a></code>.</p>
+    
+
+<p>NA; used for side effects with <code><a href="extendInputType.html">extendInputType</a></code>.</p>
     </div>
     <div id="see-also">
     <h2>See also</h2>
@@ -113,19 +115,19 @@ should equal <code>surveyID()</code>. See examples for more details.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="extendInputType.html">extendInputType</a></span><span class="op">(</span><span class="st">"slider"</span>, <span class="op">{</span></span>
-<span class="r-in"><span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/sliderInput.html" class="external-link">sliderInput</a></span><span class="op">(</span></span>
-<span class="r-in">  inputId <span class="op">=</span> <span class="fu">surveyID</span><span class="op">(</span><span class="op">)</span>,</span>
-<span class="r-in">  label <span class="op">=</span> <span class="fu"><a href="surveyLabel.html">surveyLabel</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span class="r-in">  min <span class="op">=</span> <span class="fl">1</span>,</span>
-<span class="r-in">  max <span class="op">=</span> <span class="fl">10</span>,</span>
-<span class="r-in">  value <span class="op">=</span> <span class="fl">5</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="extendInputType.html">extendInputType</a></span><span class="op">(</span><span class="st">"slider"</span>, <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/sliderInput.html" class="external-link">sliderInput</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  inputId <span class="op">=</span> <span class="fu">surveyID</span><span class="op">(</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  label <span class="op">=</span> <span class="fu"><a href="surveyLabel.html">surveyLabel</a></span><span class="op">(</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  min <span class="op">=</span> <span class="fl">1</span>,</span></span>
+<span class="r-in"><span>  max <span class="op">=</span> <span class="fl">10</span>,</span></span>
+<span class="r-in"><span>  value <span class="op">=</span> <span class="fl">5</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Input Type "slider" registered with {shinysurveys}. If the session restarts, you will need to re-register it.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> To see all registered input extensions, please call `shinysurveys::listInputExtensions()`.</span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -136,7 +138,7 @@ should equal <code>surveyID()</code>. See examples for more details.</p>
 
 
       <footer><div class="author">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

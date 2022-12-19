@@ -141,58 +141,58 @@
 </h3>
 <p>Consider the question “On a scale from 1-10, how much do you love sushi?”. An ideal input type would be {shiny}’s <code>sliderInput</code>. However, this is not natively supported by {shinysurveys} as the slider input requires multiple arguments, including a minimum, maximum, and starting value. To get around this, we can define a new input type using a new function <code><a href="../reference/extendInputType.html">extendInputType()</a></code>. As in a typical shiny survey, we can define our question as follows:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Define a question as normal with the `input_type` set to "slider", which is not natively supported by {shinysurveys}.</span>
-
-<span class="va">slider_question</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>
-  question <span class="op">=</span> <span class="st">"On a scale from 1-10, how much do you love sushi?"</span>,
-  option <span class="op">=</span> <span class="cn">NA</span>,
-  input_type <span class="op">=</span> <span class="st">"slider"</span>,
-  input_id <span class="op">=</span> <span class="st">"sushi_scale"</span>,
-  dependence <span class="op">=</span> <span class="cn">NA</span>,
-  dependence_value <span class="op">=</span> <span class="cn">NA</span>,
-  required <span class="op">=</span> <span class="cn">TRUE</span>
-  <span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># Define a question as normal with the `input_type` set to "slider", which is not natively supported by {shinysurveys}.</span></span>
+<span></span>
+<span><span class="va">slider_question</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<span>  question <span class="op">=</span> <span class="st">"On a scale from 1-10, how much do you love sushi?"</span>,</span>
+<span>  option <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  input_type <span class="op">=</span> <span class="st">"slider"</span>,</span>
+<span>  input_id <span class="op">=</span> <span class="st">"sushi_scale"</span>,</span>
+<span>  dependence <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  dependence_value <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  required <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
 <p>This looks like:</p>
-<pre><code><span class="co">#&gt;                                            question option input_type</span>
-<span class="co">#&gt; 1 On a scale from 1-10, how much do you love sushi?     NA     slider</span>
-<span class="co">#&gt;      input_id dependence dependence_value required</span>
-<span class="co">#&gt; 1 sushi_scale         NA               NA     TRUE</span></code></pre>
+<pre><code><span><span class="co">#&gt;                                            question option input_type</span></span>
+<span><span class="co">#&gt; 1 On a scale from 1-10, how much do you love sushi?     NA     slider</span></span>
+<span><span class="co">#&gt;      input_id dependence dependence_value required</span></span>
+<span><span class="co">#&gt; 1 sushi_scale         NA               NA     TRUE</span></span></code></pre>
 <p>If we try to define the user-interface component of the shiny application, we will get the following error which most commonly occurs when {shinysurveys} doesn’t recognize an input type.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://shiny.rstudio.com/" class="external-link">shiny</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://shinysurveys.jdtrat.com">shinysurveys</a></span><span class="op">)</span>
-
-<span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html" class="external-link">fluidPage</a></span><span class="op">(</span>
-  <span class="fu"><a href="../reference/surveyOutput.html">surveyOutput</a></span><span class="op">(</span>df <span class="op">=</span> <span class="va">slider_question</span>,
-               survey_title <span class="op">=</span> <span class="st">"Testing the Slider Input"</span><span class="op">)</span>
-<span class="op">)</span>
-<span class="co">#&gt; Error in FUN(X[[i]], ...): Input type 'slider' from the supplied data frame of questions is not recognized by {shinysurveys}.</span>
-<span class="co">#&gt;                 Did you mean to register a custom input extension with `extendInputType()`?</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://shiny.rstudio.com/" class="external-link">shiny</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://shinysurveys.jdtrat.com">shinysurveys</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/fluidPage.html" class="external-link">fluidPage</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="../reference/surveyOutput.html">surveyOutput</a></span><span class="op">(</span>df <span class="op">=</span> <span class="va">slider_question</span>,</span>
+<span>               survey_title <span class="op">=</span> <span class="st">"Testing the Slider Input"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span><span class="co">#&gt; Error in FUN(X[[i]], ...): Input type 'slider' from the supplied data frame of questions is not recognized by {shinysurveys}.</span></span>
+<span><span class="co">#&gt;                 Did you mean to register a custom input extension with `extendInputType()`?</span></span></code></pre></div>
 <p>To overcome this, we can use <code><a href="../reference/extendInputType.html">extendInputType()</a></code>. This function accepts two arguments. The first, <code>input_type</code>, is a string of the input type used in the questions data frame. The second is the input definition. Consider:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="co"># Register a slider input to {shinysurveys} with a custom minimum and maximum value.</span>
-
-<span class="fu"><a href="../reference/extendInputType.html">extendInputType</a></span><span class="op">(</span>input_type <span class="op">=</span> <span class="st">"slider"</span>, <span class="op">{</span>
-  <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/sliderInput.html" class="external-link">sliderInput</a></span><span class="op">(</span>
-    inputId <span class="op">=</span> <span class="fu"><a href="../reference/surveyID.html">surveyID</a></span><span class="op">(</span><span class="op">)</span>,
-    label <span class="op">=</span> <span class="fu"><a href="../reference/surveyLabel.html">surveyLabel</a></span><span class="op">(</span><span class="op">)</span>,
-    min <span class="op">=</span> <span class="fl">1</span>,
-    max <span class="op">=</span> <span class="fl">10</span>,
-    value <span class="op">=</span> <span class="fl">5</span>
-    <span class="op">)</span> 
-<span class="op">}</span><span class="op">)</span>
-<span class="co">#&gt; Input Type "slider" registered with {shinysurveys}. If the session restarts, you will need to re-register it.</span>
-<span class="co">#&gt; To see all registered input extensions, please call `shinysurveys::listInputExtensions()`.</span></code></pre></div>
+<code class="sourceCode R"><span></span>
+<span><span class="co"># Register a slider input to {shinysurveys} with a custom minimum and maximum value.</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/extendInputType.html">extendInputType</a></span><span class="op">(</span>input_type <span class="op">=</span> <span class="st">"slider"</span>, <span class="op">{</span></span>
+<span>  <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/sliderInput.html" class="external-link">sliderInput</a></span><span class="op">(</span></span>
+<span>    inputId <span class="op">=</span> <span class="fu"><a href="../reference/surveyID.html">surveyID</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>    label <span class="op">=</span> <span class="fu"><a href="../reference/surveyLabel.html">surveyLabel</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>    min <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>    max <span class="op">=</span> <span class="fl">10</span>,</span>
+<span>    value <span class="op">=</span> <span class="fl">5</span></span>
+<span>    <span class="op">)</span> </span>
+<span><span class="op">}</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Input Type "slider" registered with {shinysurveys}. If the session restarts, you will need to re-register it.</span></span>
+<span><span class="co">#&gt; To see all registered input extensions, please call `shinysurveys::listInputExtensions()`.</span></span></code></pre></div>
 <p>Note the inputId and label are set to <code><a href="../reference/surveyID.html">surveyID()</a></code> and <code><a href="../reference/surveyLabel.html">surveyLabel()</a></code>, respectively. These are necessary helper functions to ensure that survey features such as required questions function properly. As such, <strong>all extensions need <code>inputId = surveyID()</code> and <code>label = surveyLabel()</code>.</strong></p>
 <p>Now, when we try to define the user-interface, we don’t see any errors:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="co"># By defining the input type above, this works! Yay!</span>
-<span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html" class="external-link">fluidPage</a></span><span class="op">(</span>
-  <span class="fu"><a href="../reference/surveyOutput.html">surveyOutput</a></span><span class="op">(</span>df <span class="op">=</span> <span class="va">slider_question</span>,
-               survey_title <span class="op">=</span> <span class="st">"Testing the Slider Input"</span><span class="op">)</span>
-<span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span></span>
+<span><span class="co"># By defining the input type above, this works! Yay!</span></span>
+<span><span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/fluidPage.html" class="external-link">fluidPage</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="../reference/surveyOutput.html">surveyOutput</a></span><span class="op">(</span>df <span class="op">=</span> <span class="va">slider_question</span>,</span>
+<span>               survey_title <span class="op">=</span> <span class="st">"Testing the Slider Input"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <p>When running the full application, we see the following survey:</p>
 <p><img src="graphics/custom-input-extensions/slider_input.png"></p>
 </div>
@@ -201,57 +201,57 @@
 </h3>
 <p>As requested in issue <a href="https://github.com/jdtrat/shinysurveys/issues/18" class="external-link">#18</a>, a user needed a <code>dateInput</code> with special restrictions for possible values (dates). <a href="https://github.com/jdtrat/shinysurveys/issues/18#issue-856073749" class="external-link">The user’s reprex</a> showed the error we saw earlier, because {shinysurveys} does not natively support “date” inputs. Consider again the following question:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="co"># Define a question as normal with the `input_type` set to "date", which is not natively supported by {shinysurveys}.</span>
-<span class="va">date_question</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>
-  question <span class="op">=</span> <span class="st">"When do you graduate?"</span>,
-  option <span class="op">=</span> <span class="cn">NA</span>,
-  input_type <span class="op">=</span> <span class="st">"date"</span>,
-  input_id <span class="op">=</span> <span class="st">"grad_date"</span>,
-  dependence <span class="op">=</span> <span class="cn">NA</span>,
-  dependence_value <span class="op">=</span> <span class="cn">NA</span>,
-  required <span class="op">=</span> <span class="cn">FALSE</span>
-  <span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span></span>
+<span><span class="co"># Define a question as normal with the `input_type` set to "date", which is not natively supported by {shinysurveys}.</span></span>
+<span><span class="va">date_question</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<span>  question <span class="op">=</span> <span class="st">"When do you graduate?"</span>,</span>
+<span>  option <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  input_type <span class="op">=</span> <span class="st">"date"</span>,</span>
+<span>  input_id <span class="op">=</span> <span class="st">"grad_date"</span>,</span>
+<span>  dependence <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  dependence_value <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  required <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
 <p>This looks like:</p>
-<pre><code><span class="co">#&gt;                question option input_type  input_id dependence dependence_value</span>
-<span class="co">#&gt; 1 When do you graduate?     NA       date grad_date         NA               NA</span>
-<span class="co">#&gt;   required</span>
-<span class="co">#&gt; 1    FALSE</span></code></pre>
+<pre><code><span><span class="co">#&gt;                question option input_type  input_id dependence dependence_value</span></span>
+<span><span class="co">#&gt; 1 When do you graduate?     NA       date grad_date         NA               NA</span></span>
+<span><span class="co">#&gt;   required</span></span>
+<span><span class="co">#&gt; 1    FALSE</span></span></code></pre>
 <p>As in the slider example, if we try to define the user-interface component of the shiny application, we will get the following error which most commonly occurs when {shinysurveys} doesn’t recognize an input type.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://shiny.rstudio.com/" class="external-link">shiny</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://shinysurveys.jdtrat.com">shinysurveys</a></span><span class="op">)</span>
-
-<span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html" class="external-link">fluidPage</a></span><span class="op">(</span>
-  <span class="fu"><a href="../reference/surveyOutput.html">surveyOutput</a></span><span class="op">(</span>df <span class="op">=</span> <span class="va">date_question</span>,
-               survey_title <span class="op">=</span> <span class="st">"Testing the Date Input"</span><span class="op">)</span>
-<span class="op">)</span>
-<span class="co">#&gt; Error in FUN(X[[i]], ...): Input type 'date' from the supplied data frame of questions is not recognized by {shinysurveys}.</span>
-<span class="co">#&gt;                 Did you mean to register a custom input extension with `extendInputType()`?</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://shiny.rstudio.com/" class="external-link">shiny</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://shinysurveys.jdtrat.com">shinysurveys</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/fluidPage.html" class="external-link">fluidPage</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="../reference/surveyOutput.html">surveyOutput</a></span><span class="op">(</span>df <span class="op">=</span> <span class="va">date_question</span>,</span>
+<span>               survey_title <span class="op">=</span> <span class="st">"Testing the Date Input"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span><span class="co">#&gt; Error in FUN(X[[i]], ...): Input type 'date' from the supplied data frame of questions is not recognized by {shinysurveys}.</span></span>
+<span><span class="co">#&gt;                 Did you mean to register a custom input extension with `extendInputType()`?</span></span></code></pre></div>
 <p>Using <code><a href="../reference/extendInputType.html">extendInputType()</a></code> we can overcome this.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="co"># Register a date input to {shinysurveys}, limiting possible dates to a twenty-day period.</span>
-
-<span class="fu"><a href="../reference/extendInputType.html">extendInputType</a></span><span class="op">(</span><span class="st">"date"</span>, <span class="op">{</span>
-  <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/dateInput.html" class="external-link">dateInput</a></span><span class="op">(</span>
-    inputId <span class="op">=</span> <span class="fu"><a href="../reference/surveyID.html">surveyID</a></span><span class="op">(</span><span class="op">)</span>,
-    value <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span>,
-    label <span class="op">=</span> <span class="fu"><a href="../reference/surveyLabel.html">surveyLabel</a></span><span class="op">(</span><span class="op">)</span>,
-    min <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span><span class="op">-</span><span class="fl">10</span>,
-    max <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span><span class="op">+</span><span class="fl">10</span>
-  <span class="op">)</span>
-<span class="op">}</span><span class="op">)</span>
-<span class="co">#&gt; Input Type "date" registered with {shinysurveys}. If the session restarts, you will need to re-register it.</span>
-<span class="co">#&gt; To see all registered input extensions, please call `shinysurveys::listInputExtensions()`.</span></code></pre></div>
+<code class="sourceCode R"><span></span>
+<span><span class="co"># Register a date input to {shinysurveys}, limiting possible dates to a twenty-day period.</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/extendInputType.html">extendInputType</a></span><span class="op">(</span><span class="st">"date"</span>, <span class="op">{</span></span>
+<span>  <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/dateInput.html" class="external-link">dateInput</a></span><span class="op">(</span></span>
+<span>    inputId <span class="op">=</span> <span class="fu"><a href="../reference/surveyID.html">surveyID</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>    value <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>    label <span class="op">=</span> <span class="fu"><a href="../reference/surveyLabel.html">surveyLabel</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>    min <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span><span class="op">-</span><span class="fl">10</span>,</span>
+<span>    max <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span><span class="op">+</span><span class="fl">10</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">}</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Input Type "date" registered with {shinysurveys}. If the session restarts, you will need to re-register it.</span></span>
+<span><span class="co">#&gt; To see all registered input extensions, please call `shinysurveys::listInputExtensions()`.</span></span></code></pre></div>
 <p>Now, when we try to define the user-interface, we don’t see any errors:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="co"># By defining the input type above, this works! Yay!</span>
-<span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html" class="external-link">fluidPage</a></span><span class="op">(</span>
-  <span class="fu"><a href="../reference/surveyOutput.html">surveyOutput</a></span><span class="op">(</span>df <span class="op">=</span> <span class="va">date_question</span>,
-               survey_title <span class="op">=</span> <span class="st">"Testing the Date Input"</span><span class="op">)</span>
-<span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span></span>
+<span><span class="co"># By defining the input type above, this works! Yay!</span></span>
+<span><span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/fluidPage.html" class="external-link">fluidPage</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="../reference/surveyOutput.html">surveyOutput</a></span><span class="op">(</span>df <span class="op">=</span> <span class="va">date_question</span>,</span>
+<span>               survey_title <span class="op">=</span> <span class="st">"Testing the Date Input"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <p>When running the full application, we see the following survey:</p>
 <p><img src="graphics/custom-input-extensions/date_input.png"></p>
 </div>
@@ -270,7 +270,7 @@
 
       <footer><div class="author">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>

@@ -93,7 +93,7 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">renderSurvey</span><span class="op">(</span><span class="va">df</span>, theme <span class="op">=</span> <span class="st">"#63B8FF"</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">renderSurvey</span><span class="op">(</span><span class="va">df</span>, theme <span class="op">=</span> <span class="st">"#63B8FF"</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -102,54 +102,59 @@
 <dd><p><strong>Deprecated</strong> <em>please only place argument in
 <code><a href="surveyOutput.html">surveyOutput</a></code>.</em> A user supplied data frame in the format of
 teaching_r_questions.</p></dd>
+
+
 <dt>theme</dt>
 <dd><p><strong>Deprecated</strong> <em>please place the theme argument in
 <code><a href="surveyOutput.html">surveyOutput</a></code>.</em> A valid R color: predefined such as "red" or
 "blue"; hex colors such as #63B8FF (default). To customize the survey's
 appearance entirely, supply NULL.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>NA; used for server-side logic in Shiny apps.</p>
+    
+
+<p>NA; used for server-side logic in Shiny apps.</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"></span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"></span>
-<span class="r-in">  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://shiny.rstudio.com/" class="external-link">shiny</a></span><span class="op">)</span></span>
-<span class="r-in">  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://shinysurveys.jdtrat.com">shinysurveys</a></span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in">  <span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>question <span class="op">=</span> <span class="st">"What is your favorite food?"</span>,</span>
-<span class="r-in">                   option <span class="op">=</span> <span class="st">"Your Answer"</span>,</span>
-<span class="r-in">                   input_type <span class="op">=</span> <span class="st">"text"</span>,</span>
-<span class="r-in">                   input_id <span class="op">=</span> <span class="st">"favorite_food"</span>,</span>
-<span class="r-in">                   dependence <span class="op">=</span> <span class="cn">NA</span>,</span>
-<span class="r-in">                   dependence_value <span class="op">=</span> <span class="cn">NA</span>,</span>
-<span class="r-in">                   required <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in">  <span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/fluidPage.html" class="external-link">fluidPage</a></span><span class="op">(</span></span>
-<span class="r-in">    <span class="fu"><a href="surveyOutput.html">surveyOutput</a></span><span class="op">(</span>df <span class="op">=</span> <span class="va">df</span>,</span>
-<span class="r-in">                 survey_title <span class="op">=</span> <span class="st">"Hello, World!"</span>,</span>
-<span class="r-in">                 theme <span class="op">=</span> <span class="st">"#63B8FF"</span><span class="op">)</span></span>
-<span class="r-in">  <span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in">  <span class="va">server</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">input</span>, <span class="va">output</span>, <span class="va">session</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in">    <span class="fu">renderSurvey</span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in">    <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/observeEvent.html" class="external-link">observeEvent</a></span><span class="op">(</span><span class="va">input</span><span class="op">$</span><span class="va">submit</span>, <span class="op">{</span></span>
-<span class="r-in">      <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/showModal.html" class="external-link">showModal</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/modalDialog.html" class="external-link">modalDialog</a></span><span class="op">(</span></span>
-<span class="r-in">        title <span class="op">=</span> <span class="st">"Congrats, you completed your first shinysurvey!"</span>,</span>
-<span class="r-in">        <span class="st">"You can customize what actions happen when a user finishes a survey using input$submit."</span></span>
-<span class="r-in">      <span class="op">)</span><span class="op">)</span></span>
-<span class="r-in">    <span class="op">}</span><span class="op">)</span></span>
-<span class="r-in">  <span class="op">}</span></span>
-<span class="r-in"></span>
-<span class="r-in">  <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/shinyApp.html" class="external-link">shinyApp</a></span><span class="op">(</span><span class="va">ui</span>, <span class="va">server</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="op">}</span></span>
-<span class="r-in"></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://shiny.rstudio.com/" class="external-link">shiny</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://shinysurveys.jdtrat.com">shinysurveys</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>question <span class="op">=</span> <span class="st">"What is your favorite food?"</span>,</span></span>
+<span class="r-in"><span>                   option <span class="op">=</span> <span class="st">"Your Answer"</span>,</span></span>
+<span class="r-in"><span>                   input_type <span class="op">=</span> <span class="st">"text"</span>,</span></span>
+<span class="r-in"><span>                   input_id <span class="op">=</span> <span class="st">"favorite_food"</span>,</span></span>
+<span class="r-in"><span>                   dependence <span class="op">=</span> <span class="cn">NA</span>,</span></span>
+<span class="r-in"><span>                   dependence_value <span class="op">=</span> <span class="cn">NA</span>,</span></span>
+<span class="r-in"><span>                   required <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/fluidPage.html" class="external-link">fluidPage</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="surveyOutput.html">surveyOutput</a></span><span class="op">(</span>df <span class="op">=</span> <span class="va">df</span>,</span></span>
+<span class="r-in"><span>                 survey_title <span class="op">=</span> <span class="st">"Hello, World!"</span>,</span></span>
+<span class="r-in"><span>                 theme <span class="op">=</span> <span class="st">"#63B8FF"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="va">server</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">input</span>, <span class="va">output</span>, <span class="va">session</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>    <span class="fu">renderSurvey</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/observeEvent.html" class="external-link">observeEvent</a></span><span class="op">(</span><span class="va">input</span><span class="op">$</span><span class="va">submit</span>, <span class="op">{</span></span></span>
+<span class="r-in"><span>      <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/showModal.html" class="external-link">showModal</a></span><span class="op">(</span><span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/modalDialog.html" class="external-link">modalDialog</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>        title <span class="op">=</span> <span class="st">"Congrats, you completed your first shinysurvey!"</span>,</span></span>
+<span class="r-in"><span>        <span class="st">"You can customize what actions happen when a user finishes a survey using input$submit."</span></span></span>
+<span class="r-in"><span>      <span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="op">}</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/shinyApp.html" class="external-link">shinyApp</a></span><span class="op">(</span><span class="va">ui</span>, <span class="va">server</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -160,7 +165,7 @@ appearance entirely, supply NULL.</p></dd>
 
 
       <footer><div class="author">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>
