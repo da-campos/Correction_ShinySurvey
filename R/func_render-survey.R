@@ -82,7 +82,7 @@ renderSurvey <- function(df, theme = "#63B8FF") {
     # Update the dependencies
   for (id in seq_along(survey_env$unique_questions)) {
     showDependence(input = session$input, df = survey_env$unique_questions[[id]])
-    print(survey_env$unique_questions[[id]])}
+    print(id)}
 
     toggle_element(id = "submit",
                    condition = checkRequired_internal(input = session$input,
